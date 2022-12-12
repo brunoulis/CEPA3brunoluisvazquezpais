@@ -5,6 +5,8 @@
 
 package com.brunoluisvazquezpais.cepa3brunoluisvazquezpais;
 
+import org.hibernate.Session;
+
 /**
  *
  * @author luisv
@@ -12,6 +14,20 @@ package com.brunoluisvazquezpais.cepa3brunoluisvazquezpais;
 public class Cepa3brunoluisvazquezpais {
 
     public static void main(String[] args) {
+        
+        @SuppressWarnings("unused")
+        org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(java.util.logging.Level.WARNING); //or whatever level you need
+
         System.out.println("Hello World!");
+
+        Session laSesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        laSesion.getTransaction().begin();
+        System.out.println("Hello World!");
+        
+        
+        //close all
+        laSesion.getTransaction().commit();
+        laSesion.close();
     }
 }
