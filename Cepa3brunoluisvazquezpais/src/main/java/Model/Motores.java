@@ -29,11 +29,6 @@ import lombok.ToString;
  */
 @Entity
 @Table(name = "motores")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class Motores implements Serializable {
     /*
      * id_motor INT NOT NULL AUTO_INCREMENT,
@@ -47,14 +42,52 @@ public class Motores implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_equipo", foreignKey = @ForeignKey(name = "FK_Motores_Equipos"))
-    private Equipos elEquipo;
+   @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_coche", foreignKey = @ForeignKey(name = "FK_Motores_Coches"))
+    private Coches elidCoche; 
 
     @Column(name = "dosal")
     private int dorsal;
 
-    @OneToMany(mappedBy = "elMotor", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Coches> losCoches;
+    public Motores(int id_motor, String nombre, int dorsal) {
+        this.id_motor = id_motor;
+        this.nombre = nombre;
+        this.dorsal = dorsal;
+    }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getId_motor() {
+        return id_motor;
+    }
+
+    public void setId_motor(int id_motor) {
+        this.id_motor = id_motor;
+    }
+
+    public Coches getElidCoche() {
+        return elidCoche;
+    }
+
+    public void setElidCoche(Coches elidCoche) {
+        this.elidCoche = elidCoche;
+    }
+
+    
+
+    public int getDorsal() {
+        return dorsal;
+    }
+
+    public void setDorsal(int dorsal) {
+        this.dorsal = dorsal;
+    }
+
+    
 }

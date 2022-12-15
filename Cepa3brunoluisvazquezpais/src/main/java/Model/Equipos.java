@@ -87,13 +87,16 @@ public class Equipos {
     public void setLospilotos(Set<Pilotos> lospilotos) {
         this.lospilotos = lospilotos;
     }
-    
-    
 
-    @OneToMany(mappedBy = "elidequipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "elidEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Motores> losmotores;
 
-    @OneToMany(mappedBy = "elequipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "elEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Pilotos> lospilotos;
 
+    @OneToMany(mappedBy = "idElEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<Chasis> loschasis;
+
+    @OneToMany(mappedBy = "equipoElId", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<Coches> loscoches;
 }
