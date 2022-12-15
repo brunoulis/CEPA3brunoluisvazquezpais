@@ -4,9 +4,13 @@
  */
 package Model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +40,9 @@ public class Coches {
     @Id
     @Column(name = "dosal")
     private int dorsal;
-    @Column(name = "id_motor")
-    private int id_motor;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_motor", foreignKey = @ForeignKey(name = "FK_Coches_Motores"))
+    private Motores elMotor;
     @Column(name = "id_chasis")
     private int id_chasis;
     @Column(name = "id_piloto")

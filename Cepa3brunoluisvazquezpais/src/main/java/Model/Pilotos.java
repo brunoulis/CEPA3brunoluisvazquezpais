@@ -4,9 +4,14 @@
  */
 package Model;
 
+import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +30,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pilotos {
+public class Pilotos implements Serializable {
     /*
      * id_piloto INT NOT NULL AUTO_INCREMENT,
      * nombre VARCHAR(50) NOT NULL,
@@ -42,7 +47,8 @@ public class Pilotos {
     private String apellido;
     @Column(name = "edad")
     private int edad;
-    @Column(name = "id_equipo")
-    private int id_equipo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_equipo", foreignKey = @ForeignKey(name = "fk_id_equipo"))
+    private Equipos elidEquipo;
 
 }

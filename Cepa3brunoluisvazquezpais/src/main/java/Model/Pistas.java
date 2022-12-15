@@ -33,7 +33,7 @@ public class Pistas {
      * pais VARCHAR(50) NOT NULL,
      */
     @Id
-    @Column(name = "id_pista")
+    @Column(name = "idPista")
     private int id_pista;
     @Column(name = "nombre")
     private String nombre;

@@ -5,9 +5,13 @@
 package Model;
 
 import java.sql.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,7 +44,7 @@ public class Carreras {
     private String nombre;
     @Column(name = "fecha")
     private Date fecha;
-    @Column(name = "id_pista")
-    private int id_pista;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_pista", referencedColumnName = "idPista", unique = true, foreignKey = @ForeignKey(name = "fk_carreras_pistas"))
+    private Pistas pista;
 }

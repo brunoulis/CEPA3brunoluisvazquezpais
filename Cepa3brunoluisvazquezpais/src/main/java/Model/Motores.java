@@ -4,9 +4,18 @@
  */
 package Model;
 
+import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +34,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Motores {
+public class Motores implements Serializable {
     /*
      * id_motor INT NOT NULL AUTO_INCREMENT,
      * nombre VARCHAR(50) NOT NULL,
@@ -37,9 +46,15 @@ public class Motores {
     private int id_motor;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "id_equipo")
-    private int id_equipo;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "id_equipo", foreignKey = @ForeignKey(name = "FK_Motores_Equipos"))
+    private Equipos elEquipo;
+
     @Column(name = "dosal")
     private int dorsal;
+
+    @OneToMany(mappedBy = "elMotor", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<Coches> losCoches;
 
 }
