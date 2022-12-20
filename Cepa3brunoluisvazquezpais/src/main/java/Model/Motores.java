@@ -5,6 +5,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,66 +29,78 @@ import lombok.ToString;
  * @author luisv
  */
 @Entity
-@Table(name = "motores")
+@Table(name = "Motores", catalog = "f1")
 public class Motores implements Serializable {
-    /*
-     * id_motor INT NOT NULL AUTO_INCREMENT,
-     * nombre VARCHAR(50) NOT NULL,
-     * id_equipo INT NOT NULL,
-     * dosal INT,
-     */
-    @Id
-    @Column(name = "id_motor")
-    private int id_motor;
-    @Column(name = "nombre")
-    private String nombre;
 
-   @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_coche", foreignKey = @ForeignKey(name = "FK_Motores_Coches"))
-    private Coches elidCoche; 
+	private int idMotor;
+	private Equipos equipos;
+	private String nombre;
+	private Integer dosal;
+	private Set<Coches> cocheses = new HashSet<Coches>(0);
 
-    @Column(name = "dosal")
-    private int dorsal;
+	public Motores() {
+	}
 
-    public Motores(int id_motor, String nombre, int dorsal) {
-        this.id_motor = id_motor;
-        this.nombre = nombre;
-        this.dorsal = dorsal;
-    }
+	public Motores(int idMotor, Equipos equipos, String nombre) {
+		this.idMotor = idMotor;
+		this.equipos = equipos;
+		this.nombre = nombre;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public Motores(int idMotor, Equipos equipos, String nombre, Integer dosal, Set<Coches> cocheses) {
+		this.idMotor = idMotor;
+		this.equipos = equipos;
+		this.nombre = nombre;
+		this.dosal = dosal;
+		this.cocheses = cocheses;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	@Id
 
-    public int getId_motor() {
-        return id_motor;
-    }
+	@Column(name = "id_motor", unique = true, nullable = false)
+	public int getIdMotor() {
+		return this.idMotor;
+	}
 
-    public void setId_motor(int id_motor) {
-        this.id_motor = id_motor;
-    }
+	public void setIdMotor(int idMotor) {
+		this.idMotor = idMotor;
+	}
 
-    public Coches getElidCoche() {
-        return elidCoche;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_equipo", nullable = false)
+	public Equipos getEquipos() {
+		return this.equipos;
+	}
 
-    public void setElidCoche(Coches elidCoche) {
-        this.elidCoche = elidCoche;
-    }
+	public void setEquipos(Equipos equipos) {
+		this.equipos = equipos;
+	}
 
-    
+	@Column(name = "nombre", nullable = false, length = 50)
+	public String getNombre() {
+		return this.nombre;
+	}
 
-    public int getDorsal() {
-        return dorsal;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public void setDorsal(int dorsal) {
-        this.dorsal = dorsal;
-    }
+	@Column(name = "dosal")
+	public Integer getDosal() {
+		return this.dosal;
+	}
 
-    
+	public void setDosal(Integer dosal) {
+		this.dosal = dosal;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "motores")
+	public Set<Coches> getCocheses() {
+		return this.cocheses;
+	}
+
+	public void setCocheses(Set<Coches> cocheses) {
+		this.cocheses = cocheses;
+	}
+
 }

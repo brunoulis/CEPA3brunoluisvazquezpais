@@ -13,7 +13,7 @@
 
       <!-- Add ?createDatabaseIfNotExist=true to create database  -->
       <property name="connection.url">
-        jdbc:mysql://localhost:3308/f1
+        jdbc:mysql://localhost:3308/f1?createDatabaseIfNotExist=true
       </property>
 
       <!--user and pass -->
@@ -37,7 +37,7 @@
       <property name="show_sql">true</property>
       
       <!-- DB maintenance -->
-      <property name="hbm2ddl.auto">update</property>
+      <property name="hbm2ddl.auto">validate</property>
 
       <!-- options hbm2dll:
         create : 
@@ -52,13 +52,13 @@
       -->
 
       
-      <mapping resource="Model.Equipos" />
-      <mapping resource="Model.Pilotos"/>
-      <mapping resource="Model.Carreras"/>
-      <mapping resource="Model.Pistas"/>
-      <mapping resource="Model.Motores"/>
-      <mapping resource="Model.Chasis"/>
-      <mapping resource="Model.Coches"/>
+      <mapping class="Model.Equipos" />
+      <mapping class="Model.Pilotos"/>
+      <mapping class="Model.Carreras"/>
+      <mapping class="Model.Pistas"/>
+      <mapping class="Model.Motores"/>
+      <mapping class="Model.Chasis"/>
+      <mapping class="Model.Coches"/>
       
       
           

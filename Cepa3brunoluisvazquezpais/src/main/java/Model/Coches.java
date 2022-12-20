@@ -4,6 +4,7 @@
  */
 package Model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -28,86 +29,63 @@ import lombok.ToString;
  * @author luisv
  */
 @Entity
-@Table(name = "coches")
+@Table(name = "Coches", catalog = "f1")
+public class Coches implements Serializable {
 
-public class Coches {
-    /*
-     * dosal INT NOT NULL,
-     * id_motor INT NOT NULL,
-     * id_chasis INT NOT NULL,
-     * id_piloto INT NOT NULL,
-     */
-    @Id
-    @Column(name = "dosal")
-    private int dorsal;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_motor", foreignKey = @ForeignKey(name = "FK_Coches_Motores"))
-    private Motores elMotor;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id_chasis", foreignKey = @ForeignKey(name = "FK_Coches_Chasis"))
-    private Chasis elChasis;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "Conduce", joinColumns = {
-            @JoinColumn(name = "dosal", referencedColumnName = "dosal") }, inverseJoinColumns = {
-                    @JoinColumn(name = "id_piloto", referencedColumnName = "id_piloto") })
-    private Set<Pilotos> losPilotos = new HashSet<Pilotos>();
+	private int dosal;
+	private Chasis chasis;
+	private Motores motores;
+	private Pilotos pilotos;
 
-    public void addPiloto(Pilotos p) {
-        if(!this.losPilotos.contains(p)){
-            losPilotos.add(p);
-            p.addCoche(this);
-        }
+	public Coches() {
+	}
 
-    }
+	public Coches(int dosal, Chasis chasis, Motores motores, Pilotos pilotos) {
+		this.dosal = dosal;
+		this.chasis = chasis;
+		this.motores = motores;
+		this.pilotos = pilotos;
+	}
 
-    public Coches(int dorsal) {
-        this.dorsal = dorsal;
-    }
+	@Id
 
-    public int getDorsal() {
-        return dorsal;
-    }
+	@Column(name = "dosal", unique = true, nullable = false)
+	public int getDosal() {
+		return this.dosal;
+	}
 
-    public void setDorsal(int dorsal) {
-        this.dorsal = dorsal;
-    }
+	public void setDosal(int dosal) {
+		this.dosal = dosal;
+	}
 
-    public Motores getElMotor() {
-        return elMotor;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_chasis", nullable = false)
+	public Chasis getChasis() {
+		return this.chasis;
+	}
 
-    public void setElMotor(Motores elMotor) {
-        this.elMotor = elMotor;
-    }
+	public void setChasis(Chasis chasis) {
+		this.chasis = chasis;
+	}
 
-    public Chasis getElChasis() {
-        return elChasis;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_motor", nullable = false)
+	public Motores getMotores() {
+		return this.motores;
+	}
 
-    public void setElChasis(Chasis elChasis) {
-        this.elChasis = elChasis;
-    }
+	public void setMotores(Motores motores) {
+		this.motores = motores;
+	}
 
-    public Set<Pilotos> getLosPilotos() {
-        return losPilotos;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_piloto", nullable = false)
+	public Pilotos getPilotos() {
+		return this.pilotos;
+	}
 
-    public void setLosPilotos(Set<Pilotos> losPilotos) {
-        this.losPilotos = losPilotos;
-    }
-
-    @Override
-    public String toString() {
-        return "Coches{" + "dorsal=" + dorsal + ", el Motor=" + elMotor + ", el Chasis=" + elChasis + ", los Pilotos=" + losPilotos + '}';
-    }
-    
-    public String mostrarPilotos(){
-        String res= "";
-        for (Pilotos p : losPilotos) {
-            res += p.getNombre() + "\n";
-        }
-        return res;
-    }
-    
+	public void setPilotos(Pilotos pilotos) {
+		this.pilotos = pilotos;
+	}
 
 }

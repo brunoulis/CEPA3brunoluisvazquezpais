@@ -4,6 +4,8 @@
  */
 package Model;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,79 +26,89 @@ import lombok.ToString;
  * @author luisv
  */
 @Entity
-@Table(name = "equipos")
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class Equipos {
-    /*
-     * id_equipo INT NOT NULL AUTO_INCREMENT,
-     * nombre VARCHAR(50) NOT NULL,
-     * pais VARCHAR(50) NOT NULL,
-     */
-    @Id
-    @Column(name = "id_equipo")
-    private int idEquipo;
-    @Column(name = "nombre")
-    private String nombre;
-    @Column(name = "pais")
-    private String pais;
+@Table(name = "Equipos", catalog = "f1")
+public class Equipos implements Serializable {
 
-    public Equipos(int idEquipo, String nombre, String pais) {
-        this.idEquipo = idEquipo;
-        this.nombre = nombre;
-        this.pais = pais;
-    }
+	private int idEquipo;
+	private String nombre;
+	private String pais;
+	private Set<Motores> motoreses = new HashSet<Motores>(0);
+	private Set<Pilotos> pilotoses = new HashSet<Pilotos>(0);
+	private Set<Chasis> chasises = new HashSet<Chasis>(0);
 
-    public int getIdEquipo() {
-        return idEquipo;
-    }
+	public Equipos() {
+	}
 
-    public void setIdEquipo(int idEquipo) {
-        this.idEquipo = idEquipo;
-    }
+	public Equipos(int idEquipo, String nombre, String pais) {
+		this.idEquipo = idEquipo;
+		this.nombre = nombre;
+		this.pais = pais;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public Equipos(int idEquipo, String nombre, String pais, Set<Motores> motoreses, Set<Pilotos> pilotoses,
+			Set<Chasis> chasises) {
+		this.idEquipo = idEquipo;
+		this.nombre = nombre;
+		this.pais = pais;
+		this.motoreses = motoreses;
+		this.pilotoses = pilotoses;
+		this.chasises = chasises;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	@Id
 
-    public String getPais() {
-        return pais;
-    }
+	@Column(name = "id_equipo", unique = true, nullable = false)
+	public int getIdEquipo() {
+		return this.idEquipo;
+	}
 
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
+	public void setIdEquipo(int idEquipo) {
+		this.idEquipo = idEquipo;
+	}
 
-    public Set<Motores> getLosmotores() {
-        return losmotores;
-    }
+	@Column(name = "nombre", nullable = false, length = 50)
+	public String getNombre() {
+		return this.nombre;
+	}
 
-    public void setLosmotores(Set<Motores> losmotores) {
-        this.losmotores = losmotores;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public Set<Pilotos> getLospilotos() {
-        return lospilotos;
-    }
+	@Column(name = "pais", nullable = false, length = 50)
+	public String getPais() {
+		return this.pais;
+	}
 
-    public void setLospilotos(Set<Pilotos> lospilotos) {
-        this.lospilotos = lospilotos;
-    }
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
 
-    @OneToMany(mappedBy = "elidEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Motores> losmotores;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipos")
+	public Set<Motores> getMotoreses() {
+		return this.motoreses;
+	}
 
-    @OneToMany(mappedBy = "elEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Pilotos> lospilotos;
+	public void setMotoreses(Set<Motores> motoreses) {
+		this.motoreses = motoreses;
+	}
 
-    @OneToMany(mappedBy = "idElEquipo", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Chasis> loschasis;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipos")
+	public Set<Pilotos> getPilotoses() {
+		return this.pilotoses;
+	}
 
-    @OneToMany(mappedBy = "equipoElId", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Coches> loscoches;
+	public void setPilotoses(Set<Pilotos> pilotoses) {
+		this.pilotoses = pilotoses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipos")
+	public Set<Chasis> getChasises() {
+		return this.chasises;
+	}
+
+	public void setChasises(Set<Chasis> chasises) {
+		this.chasises = chasises;
+	}
+
 }

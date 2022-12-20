@@ -4,40 +4,71 @@
  */
 package Model;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
 
 /**
  *
  * @author luisv
  */
 @Entity
-@Table(name = "pistas")
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class Pistas {
-    /*
-     * id_pista INT NOT NULL AUTO_INCREMENT,
-     * nombre VARCHAR(50) NOT NULL,
-     * pais VARCHAR(50) NOT NULL,
-     */
-    @Id
-    @Column(name = "idPista")
-    private int id_pista;
-    @Column(name = "nombre")
-    private String nombre;
-    @Column(name = "pais")
-    private String pais;
+@Table(name = "Pistas", catalog = "f1")
+public class Pistas implements Serializable {
+
+	private int idPista;
+	private String nombre;
+	private String pais;
+	
+
+	public Pistas() {
+	}
+
+	public Pistas(int idPista, String nombre, String pais) {
+		this.idPista = idPista;
+		this.nombre = nombre;
+		this.pais = pais;
+	}
+
+	
+
+	@Id
+
+	@Column(name = "id_pista", unique = true, nullable = false)
+	public int getIdPista() {
+		return this.idPista;
+	}
+
+	public void setIdPista(int idPista) {
+		this.idPista = idPista;
+	}
+
+	@Column(name = "nombre", nullable = false, length = 50)
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	@Column(name = "pais", nullable = false, length = 50)
+	public String getPais() {
+		return this.pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	
 
 }

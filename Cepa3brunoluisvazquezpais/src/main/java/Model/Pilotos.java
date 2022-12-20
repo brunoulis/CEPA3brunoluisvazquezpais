@@ -21,119 +21,97 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
  * @author luisv
  */
 @Entity
-@Table(name = "pilotos")
+@Table(name = "Pilotos", catalog = "f1")
 public class Pilotos implements Serializable {
-    /*
-     * id_piloto INT NOT NULL AUTO_INCREMENT,
-     * nombre VARCHAR(50) NOT NULL,
-     * apellido VARCHAR(50) NOT NULL,
-     * edad INT NOT NULL,
-     * id_equipo INT NOT NULL,
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_piloto")
-    private int id_piloto;
-    @Column(name = "nombre")
-    private String nombre;
-    @Column(name = "apellido")
-    private String apellido;
-    @Column(name = "edad")
-    private int edad;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_equipo", foreignKey = @ForeignKey(name = "fk_id_equipo"))
-    private Equipos elidEquipo;
 
-    @OneToMany(mappedBy = "elPiloto", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private Set<Coches> loscoches;
+	private int idPiloto;
+	private Equipos equipos;
+	private String nombre;
+	private String apellido;
+	private int edad;
+	private Set<Coches> cocheses = new HashSet<Coches>(0);
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "Conduce", joinColumns = {
-            @JoinColumn(name = "id_piloto", foreignKey = @ForeignKey(name = "fk_id_piloto")) }, inverseJoinColumns = {
-                    @JoinColumn(name = "id_coche", foreignKey = @ForeignKey(name = "fk_id_coche")) })
-    private Set<Coches> losCoches = new HashSet<>();
+	public Pilotos() {
+	}
 
-    public void addCoche(Coches c) {
-        losCoches.add(c);
-        c.addPiloto(this);
-    }
+	public Pilotos(int idPiloto, Equipos equipos, String nombre, String apellido, int edad) {
+		this.idPiloto = idPiloto;
+		this.equipos = equipos;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.edad = edad;
+	}
 
-    public Pilotos() {
-    }
+	public Pilotos(int idPiloto, Equipos equipos, String nombre, String apellido, int edad, Set<Coches> cocheses) {
+		this.idPiloto = idPiloto;
+		this.equipos = equipos;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.edad = edad;
+		this.cocheses = cocheses;
+	}
 
-    public Pilotos(String nombre, String apellido, int edad) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.edad = edad;
-    }
+	@Id
 
-    public int getId_piloto() {
-        return id_piloto;
-    }
+	@Column(name = "id_piloto", unique = true, nullable = false)
+	public int getIdPiloto() {
+		return this.idPiloto;
+	}
 
-    public void setId_piloto(int id_piloto) {
-        this.id_piloto = id_piloto;
-    }
+	public void setIdPiloto(int idPiloto) {
+		this.idPiloto = idPiloto;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_equipo", nullable = false)
+	public Equipos getEquipos() {
+		return this.equipos;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public void setEquipos(Equipos equipos) {
+		this.equipos = equipos;
+	}
 
-    public String getApellido() {
-        return apellido;
-    }
+	@Column(name = "nombre", nullable = false, length = 50)
+	public String getNombre() {
+		return this.nombre;
+	}
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public int getEdad() {
-        return edad;
-    }
+	@Column(name = "apellido", nullable = false, length = 50)
+	public String getApellido() {
+		return this.apellido;
+	}
 
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
 
-    public Equipos getElidEquipo() {
-        return elidEquipo;
-    }
+	@Column(name = "edad", nullable = false)
+	public int getEdad() {
+		return this.edad;
+	}
 
-    public void setElidEquipo(Equipos elidEquipo) {
-        this.elidEquipo = elidEquipo;
-    }
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
 
-    public Set<Coches> getLoscoches() {
-        return loscoches;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pilotos")
+	public Set<Coches> getCocheses() {
+		return this.cocheses;
+	}
 
-    public void setLoscoches(Set<Coches> loscoches) {
-        this.loscoches = loscoches;
-    }
-
-    public Set<Coches> getLosCoches() {
-        return losCoches;
-    }
-
-    public void setLosCoches(Set<Coches> losCoches) {
-        this.losCoches = losCoches;
-    }
-    
-    
+	public void setCocheses(Set<Coches> cocheses) {
+		this.cocheses = cocheses;
+	}
 
 }
