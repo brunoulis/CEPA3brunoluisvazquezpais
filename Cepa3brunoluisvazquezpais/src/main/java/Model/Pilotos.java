@@ -104,14 +104,21 @@ public class Pilotos implements Serializable {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pilotos")
-	public Set<Coches> getCocheses() {
-		return this.cocheses;
-	}
-
-	public void setCocheses(Set<Coches> cocheses) {
-		this.cocheses = cocheses;
-	}
+        //Hacemos la relacion n:m con 
+	@ManyToMany(cascade=CascadeType.PERSIST,
+                fetch=FetchType.LAZY)
+        @JoinTable(name="correr",
+            joinColumns = {@JoinColumn(name="idPiloto", foreignKey= @ForeignKey(name= "FK_COR_PIL") )},
+            inverseJoinColumns ={@JoinColumn(name="idCoches", foreignKey= @ForeignKey(name= "FK_COR_COCH"))}
+        )
+        private Set<Coches> losCoches=new HashSet<>();
+	
+        public void addCoches(Coches c){
+            if(!this.losCoches.contains(c)){
+                losCoches.add(c);
+                c.addPilotos(this);
+            }
+        }
+        
 
 }

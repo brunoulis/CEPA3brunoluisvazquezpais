@@ -32,60 +32,70 @@ import lombok.ToString;
 @Table(name = "Coches", catalog = "f1")
 public class Coches implements Serializable {
 
-	private int dosal;
-	private Chasis chasis;
-	private Motores motores;
-	private Pilotos pilotos;
+    @Id
+    @Column(name = "dosal", unique = true, nullable = false)
+    private int dosal;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_chasis", nullable = false)
+    private Chasis chasis;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_motor", nullable = false)
+    private Motores motores;
 
-	public Coches() {
-	}
+    @ManyToMany(cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY,
+            mappedBy = "losPilotos")
+    private Set<Pilotos> losPilotos = new HashSet<>();
 
-	public Coches(int dosal, Chasis chasis, Motores motores, Pilotos pilotos) {
-		this.dosal = dosal;
-		this.chasis = chasis;
-		this.motores = motores;
-		this.pilotos = pilotos;
-	}
+    public Coches() {
+    }
 
-	@Id
+    public Coches(int dosal, Chasis chasis, Motores motores) {
+        this.dosal = dosal;
+        this.chasis = chasis;
+        this.motores = motores;
 
-	@Column(name = "dosal", unique = true, nullable = false)
-	public int getDosal() {
-		return this.dosal;
-	}
+    }
 
-	public void setDosal(int dosal) {
-		this.dosal = dosal;
-	}
+    public int getDosal() {
+        return this.dosal;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_chasis", nullable = false)
-	public Chasis getChasis() {
-		return this.chasis;
-	}
+    public void setDosal(int dosal) {
+        this.dosal = dosal;
+    }
 
-	public void setChasis(Chasis chasis) {
-		this.chasis = chasis;
-	}
+    public Chasis getChasis() {
+        return this.chasis;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_motor", nullable = false)
-	public Motores getMotores() {
-		return this.motores;
-	}
+    public void setChasis(Chasis chasis) {
+        this.chasis = chasis;
+    }
 
-	public void setMotores(Motores motores) {
-		this.motores = motores;
-	}
+    public Motores getMotores() {
+        return this.motores;
+    }
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_piloto", nullable = false)
-	public Pilotos getPilotos() {
-		return this.pilotos;
-	}
+    public void addPilotos(Pilotos p) {
+        if (!this.losPilotos.contains(p)) {
+            losPilotos.add(p);
+            p.addCoches(this);
+        }
 
-	public void setPilotos(Pilotos pilotos) {
-		this.pilotos = pilotos;
-	}
+    }
+
+    public void setMotores(Motores motores) {
+        this.motores = motores;
+    }
+
+    public String mostrarPilotos() {
+        String res = "";
+        for (Pilotos p : losPilotos) {
+            res += p.getNombre() + "\n";
+
+        }
+        return res;
+    }
 
 }
