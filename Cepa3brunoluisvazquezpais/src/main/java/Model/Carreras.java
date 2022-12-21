@@ -31,62 +31,68 @@ import lombok.ToString;
 @Entity
 @Table(name = "Carreras", catalog = "f1")
 public class Carreras implements Serializable {
-    
-        static final long serialVersionUID = 137L;
-        @Id
-        @Column(name = "id_carrera", unique = true, nullable = false)
-	private int idCarrera;
-        @Column(name = "nombre", nullable = false, length = 50)
-	private String nombre;
-        @Temporal(TemporalType.DATE)
-        @Column(name = "fecha", nullable = false, length = 10)
-	private Date fecha;
 
-	public Carreras() {
-	}
+    static final long serialVersionUID = 137L;
+    @Id
+    @Column(name = "id_carrera", unique = true, nullable = false)
+    private int idCarrera;
+    @Column(name = "nombre", nullable = false, length = 50)
+    private String nombre;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha", nullable = false, length = 10)
+    private Date fecha;
 
-	public Carreras(int idCarrera,  String nombre, Date fecha) {
-		this.idCarrera = idCarrera;
-		this.nombre = nombre;
-		this.fecha = fecha;
-	}
+    public Carreras() {
+    }
 
-	public int getIdCarrera() {
-		return this.idCarrera;
-	}
+    public Carreras(int idCarrera, String nombre, Date fecha) {
+        this.idCarrera = idCarrera;
+        this.nombre = nombre;
+        this.fecha = fecha;
+    }
 
-	public void setIdCarrera(int idCarrera) {
-		this.idCarrera = idCarrera;
-	}
+    public int getIdCarrera() {
+        return this.idCarrera;
+    }
 
-        
-        @OneToOne(cascade= CascadeType.ALL)
-        @JoinColumn(name="idPista",
-                referencedColumnName= "idTeacher",
-                unique=true,
-                foreignKey =@ForeignKey(name="FK_GRP_PISTAS"))
-        private Pistas id_pistas;
+    public void setIdCarrera(int idCarrera) {
+        this.idCarrera = idCarrera;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_Pista",
+            referencedColumnName = "id_Pista",
+            unique = true,
+            foreignKey = @ForeignKey(name = "FK_GRP_PISTAS"))
+    private Pistas id_pista;
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "id_pista", nullable = false)
 //	public Pistas getPistas() {
 //		return this.pistas;
 //	}
 
-	
-	public String getNombre() {
-		return this.nombre;
-	}
+    public String getNombre() {
+        return this.nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public Date getFecha() {
-		return this.fecha;
-	}
+    public Date getFecha() {
+        return this.fecha;
+    }
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public Pistas getId_pista() {
+        return id_pista;
+    }
+
+    public void setId_pista(Pistas id_pista) {
+        this.id_pista = id_pista;
+    }
 
 }
